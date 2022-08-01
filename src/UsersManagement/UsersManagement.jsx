@@ -44,7 +44,7 @@ export default class UsersManagement extends Component {
             <strong> User Form</strong>
           </div>
           <div className="card-body">
-            <UsersForm />
+            <UsersForm onSuccess={this.fetchUsers} />
           </div>
 
           <div className="card-header bg-dark text-white">
