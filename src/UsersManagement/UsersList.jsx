@@ -39,7 +39,12 @@ export default class UsersList extends Component {
                 <td>{user.phoneNumber}</td>
                 <td>{user.userType}</td>
                 <td>
-                  <button className="btn btn-success me-2">Update</button>
+                  <button
+                    className="btn btn-success me-2"
+                    onClick={() => this.props.onSelectedUser(user.id)}
+                  >
+                    Update
+                  </button>
                   <button
                     className="btn btn-danger"
                     onClick={() => {

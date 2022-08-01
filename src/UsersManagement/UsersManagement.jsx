@@ -9,7 +9,7 @@ export default class UsersManagement extends Component {
 
     this.state = {
       users: [],
-      // selectedUser: null,
+      selectedUser: null,
     };
   }
   fetchUsers = async () => {
@@ -18,6 +18,16 @@ export default class UsersManagement extends Component {
         'https://62b579ecda3017eabb1b8353.mockapi.io/api/ClassComponent-Users'
       );
       this.setState({ users: data });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  fetchUserDetails = async (userId) => {
+    try {
+      const { data } = await axios.get(
+        `https://62b579ecda3017eabb1b8353.mockapi.io/api/ClassComponent-Users/${userId}`
+      );
+      this.setState({ selectedUser: data });
     } catch (error) {
       console.log(error);
     }
@@ -44,14 +54,21 @@ export default class UsersManagement extends Component {
             <strong> User Form</strong>
           </div>
           <div className="card-body">
-            <UsersForm onSuccess={this.fetchUsers} />
+            <UsersForm
+              onSuccess={this.fetchUsers}
+              user={this.state.selectedUser}
+            />
           </div>
 
           <div className="card-header bg-dark text-white">
             <strong> User List</strong>
           </div>
           <div className="card-body">
-            <UsersList users={users} onDeleteSuccess={this.fetchUsers} />
+            <UsersList
+              users={users}
+              onDeleteSuccess={this.fetchUsers}
+              onSelectedUser={this.fetchUserDetails}
+            />
           </div>
         </div>
       </div>

@@ -24,12 +24,22 @@ export default class UsersForm extends Component {
       },
     }));
   };
-  handleSubmit = async () => {
+  handleSubmit = async (evt) => {
+    evt.preventDefault();
+    const { id, ...payload } = this.state.values;
     try {
-      await axios.post(
-        'https://62b579ecda3017eabb1b8353.mockapi.io/api/ClassComponent-Users',
-        this.state.values
-      );
+      if (id) {
+        await axios.put(
+          `https://62b579ecda3017eabb1b8353.mockapi.io/api/ClassComponent-Users/${id}`,
+          payload
+        );
+      } else {
+        await axios.post(
+          'https://62b579ecda3017eabb1b8353.mockapi.io/api/ClassComponent-Users',
+          payload
+        );
+      }
+
       this.setState({
         values: {
           username: '',
@@ -45,6 +55,11 @@ export default class UsersForm extends Component {
       console.log(error);
     }
   };
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.user && this.props.user !== prevProps.user) {
+      this.setState({ values: { ...this.props.user } });
+    }
+  }
   render() {
     const { values } = this.state;
     return (
